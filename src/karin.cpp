@@ -10,6 +10,9 @@
 #include "transformer.h"
 #include "graphics.h"
 #include "Ripple.h"
+#include "FFTFilter.h"
+#include "DB.h"
+#include "ADDA.h"
 
 #include <assert.h>
 #include <getopt.h>
@@ -187,6 +190,11 @@ int main(int argc, char *argv[]) {
     RGBMatrix::Options matrix_options;
     rgb_matrix::RuntimeOptions runtime_opt;
     
+    //Audio
+    ADDA        adda;
+    FFTFilter   fft;
+    DB          db;
+    
     // These are the defaults when no command-line flags are given.
     matrix_options.rows = 32;
     matrix_options.chain_length = 4;
@@ -211,18 +219,13 @@ int main(int argc, char *argv[]) {
     
     // Image generating demo is crated. Now start the thread.
     image_gen->Start();
-    
+    adda.start();
     // Now, the image generation runs in the background. We can do arbitrary
     // things here in parallel. In this demo, we're essentially just
     // waiting for one of the conditions to exit.
-    if (runtime_seconds > 0) {
-        sleep(runtime_seconds);
-    } else {
-        // The
-        printf("Press <CTRL-C> to exit and reset LEDs\n");
-        while (!interrupt_received) {
-            sleep(1); // Time doesn't really matter. The syscall will be interrupted.
-        }
+    printf("Press <CTRL-C> to exit and reset LEDs\n");
+    while (!interrupt_received) {
+        sleep(1); // Time doesn't really matter. The syscall will be interrupted.
     }
     
     // Stop image generating thread. The delete triggers
