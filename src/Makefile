@@ -1,6 +1,6 @@
-CFLAGS=-Wall -O3 -g
+CFLAGS=-Wall -O3 -g -std=c++11
 CXXFLAGS=$(CFLAGS)
-OBJECTS=karin.o
+OBJECTS=karin.o Ripple.o
 BINARIES=karin
 
 # Where our library resides. You mostly only need to change the
@@ -8,25 +8,18 @@ BINARIES=karin
 RGB_LIB_DISTRIBUTION=..
 RGB_INCDIR=$(RGB_LIB_DISTRIBUTION)/include/led-matrix
 RGB_LIBDIR=$(RGB_LIB_DISTRIBUTION)/lib
+SRC_DIR=$(RGB_LIB_DISTRIBUTION)/src
 RGB_LIBRARY_NAME=rgbmatrix
 RGB_LIBRARY=$(RGB_LIBDIR)/lib$(RGB_LIBRARY_NAME).a
 LDFLAGS+=-L$(RGB_LIBDIR) -l$(RGB_LIBRARY_NAME) -lrt -lm -lpthread
 
 all : $(BINARIES)
 
-karin : karin.o $(RGB_LIBRARY)
-	$(CXX) $< -o $@ $(LDFLAGS)
-
-# Since the C example uses the C++ library underneath, which depends on C++
-# runtime stuff, you still have to also link -lstdc++
-c-example : c-example.o $(RGB_LIBRARY)
-	$(CC) $< -o $@ $(LDFLAGS) -lstdc++
-
 %.o : %.cpp
-	$(CXX) -I$(RGB_INCDIR) $(CXXFLAGS) -c -o $@ $<
+	$(CXX) -I$(RGB_INCDIR) -I$(SRC_DIR) $(CXXFLAGS) -c -o $@ $<
 
-%.o : %.c
-	$(CC) -I$(RGB_INCDIR) $(CFLAGS) -c -o $@ $<
+karin : $(OBJECTS) $(RGB_LIBRARY)
+	$(CXX) $(OBJECTS) -o $@ $(LDFLAGS)
 
 clean:
 	rm -f $(OBJECTS) $(BINARIES)

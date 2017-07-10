@@ -9,7 +9,7 @@
 #include "threaded-canvas-manipulator.h"
 #include "transformer.h"
 #include "graphics.h"
-#include "Ripple.hpp"
+#include "Ripple.h"
 
 #include <assert.h>
 #include <getopt.h>
