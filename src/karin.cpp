@@ -46,23 +46,19 @@ class ColorPulseGenerator : public ThreadedCanvasManipulator {
 public:
     ColorPulseGenerator(RGBMatrix *m) : ThreadedCanvasManipulator(m), matrix_(m) {
         off_screen_canvas_ = m->CreateFrameCanvas();
+        nextRipple = 0;
+        width = 96;
+        height = 96;
     }
     
     void Run() {
-        Ripple ripple[NUM_RIPPLES];
-        int nextRipple = 0;
-        width = 96;
-        height = 96;
-        
-        uint8_t count = 0;
-        
         while (running() && !interrupt_received) {
             usleep(30 * 1000);
             off_screen_canvas_->Fill(0, 0, 0);
             for (int y = 0; y < height; ++y) {
                 for (int x = 0; x < width; ++x) {
                     float a=0;
-                    for(int z=0;k<NUM_RIPPLES;z++) {
+                    for(int z=0;z<NUM_RIPPLES;z++) {
                         ripple[z].update();
                         a += ripple[z].getDisplacement(x,y);
                     }
@@ -181,14 +177,13 @@ public:
 private:
     RGBMatrix *const matrix_;
     FrameCanvas *off_screen_canvas_;
-    int bg[3], ripple_color[3], width, height;
+    Ripple ripple[NUM_RIPPLES];
+    int bg[3], ripple_color[3], width, height, nextRipple;
     std::random_device rnd;
-
 };
 
 int main(int argc, char *argv[]) {
     int runtime_seconds = -1;
-    const char *demo_parameter = NULL;
     RGBMatrix::Options matrix_options;
     rgb_matrix::RuntimeOptions runtime_opt;
     
