@@ -22,7 +22,7 @@ karin : karin.o $(RGB_LIBRARY)
 c-example : c-example.o $(RGB_LIBRARY)
 	$(CC) $< -o $@ $(LDFLAGS) -lstdc++
 
-%.o : %.cc
+%.o : %.cpp
 	$(CXX) -I$(RGB_INCDIR) $(CXXFLAGS) -c -o $@ $<
 
 %.o : %.c
