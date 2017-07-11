@@ -9,7 +9,7 @@
 #ifndef Ripple_h
 #define Ripple_h
 #define R_SIZE 35
-#define VELOCITY 0.25
+#define VELOCITY 1.5
 #define LAMBDA 10
 
 #include <stdio.h>

@@ -34,7 +34,7 @@ float Ripple::getDisplacement(int x, int y){
     if(VELOCITY*t >= R_SIZE) return 0;
     else if(dist >= VELOCITY*t) return 0;
     else {
-        return (R_SIZE/VELOCITY-t)/(40*(dist+1))*(1-cos(2*M_PI*VELOCITY*t/LAMBDA - 2*M_PI*dist/LAMBDA));
+        return (R_SIZE/VELOCITY-t)/(5*(dist+1))*(1-cos(2*M_PI*VELOCITY*t/LAMBDA - 2*M_PI*dist/LAMBDA));
     }
 }
 
