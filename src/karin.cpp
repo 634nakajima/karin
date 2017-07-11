@@ -5,12 +5,12 @@
 // covered by the GPL v2)
 //
 // This is a grab-bag of various demos and not very readable.
-#include "led-matrix.h"
-#include "threaded-canvas-manipulator.h"
-#include "transformer.h"
-#include "graphics.h"
+#include "led-matrix/led-matrix.h"
+#include "led-matrix/threaded-canvas-manipulator.h"
+#include "led-matrix/transformer.h"
+#include "led-matrix/graphics.h"
 #include "Ripple.h"
-#include "FFTFilter.h"
+#include "FFTFilter.h"
 #include "DB.h"
 #include "ADDA.h"
 
@@ -186,30 +186,31 @@ private:
 };
 
 int main(int argc, char *argv[]) {
-    int runtime_seconds = -1;
     RGBMatrix::Options matrix_options;
     rgb_matrix::RuntimeOptions runtime_opt;
     
     //Audio
     ADDA        adda;
     FFTFilter   fft;
-    DB          db;
-    
+    //DB          db;
+
+    fft.prepareAudioSource("/home/pi/karin/case.wav", NULL);
+    adda.setCallback(&fft, &FFTFilter::proc);
     // These are the defaults when no command-line flags are given.
     matrix_options.rows = 32;
     matrix_options.chain_length = 4;
     matrix_options.parallel = 1;
     ParseOptionsFromFlags(&argc, &argv, &matrix_options, &runtime_opt);
-    RGBMatrix *matrix = CreateMatrixFromOptions(matrix_options, runtime_opt);
-    if (matrix == NULL)	return 1;
-    printf("Size: %dx%d. Hardware gpio mapping: %s\n", matrix->width(), matrix->height(), matrix_options.hardware_mapping);
+    //RGBMatrix *matrix = CreateMatrixFromOptions(matrix_options, runtime_opt);
+    //if (matrix == NULL)	return 1;
+    //printf("Size: %dx%d. Hardware gpio mapping: %s\n", matrix->width(), matrix->height(), matrix_options.hardware_mapping);
     
-    Canvas *canvas = matrix;
+    //Canvas *canvas = matrix;
     
     // The ThreadedCanvasManipulator objects are filling
     // the matrix continuously.
-    ThreadedCanvasManipulator *image_gen = NULL;
-    image_gen = new ColorPulseGenerator(matrix);
+    //ThreadedCanvasManipulator *image_gen = NULL;
+    //image_gen = new ColorPulseGenerator(matrix);
     
     // Set up an interrupt handler to be able to stop animations while they go
     // on. Note, each demo tests for while (running() && !interrupt_received) {},
@@ -218,8 +219,8 @@ int main(int argc, char *argv[]) {
     signal(SIGINT, InterruptHandler);
     
     // Image generating demo is crated. Now start the thread.
-    image_gen->Start();
-    adda.start();
+    //image_gen->Start();
+    
     // Now, the image generation runs in the background. We can do arbitrary
     // things here in parallel. In this demo, we're essentially just
     // waiting for one of the conditions to exit.
@@ -229,8 +230,8 @@ int main(int argc, char *argv[]) {
     }
     
     // Stop image generating thread. The delete triggers
-    delete image_gen;
-    delete canvas;
+    //delete image_gen;
+    //delete canvas;
     
     printf("\%s. Exiting.\n",
            interrupt_received ? "Received CTRL-C" : "Timeout reached");

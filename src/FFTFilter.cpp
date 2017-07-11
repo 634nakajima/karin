@@ -6,7 +6,7 @@
 //  Copyright © 2017年 kannolab1. All rights reserved.
 //
 
-#include "FFTFilter.hpp"
+#include "FFTFilter.h"
 
 FFTFilter::FFTFilter()
 {
@@ -38,7 +38,7 @@ void FFTFilter::proc(const void *inputBuffer, void *outputBuffer, unsigned long 
     float *intmp = (float *)inputBuffer;
     float *outtmp = (float *)outputBuffer;
     double  inSig[framesPerBuffer], outSig[ps2n];
-    for(int i=0; i<framesPerBuffer; i++) {
+    for(unsigned int i=0; i<framesPerBuffer; i++) {
         inSig[i] = *intmp++;
         *intmp++;
     }
@@ -50,7 +50,7 @@ void FFTFilter::proc(const void *inputBuffer, void *outputBuffer, unsigned long 
     Aquila::SpectrumType inSpectrum = fft->fft(inSigSource.toArray());
 
     std::transform(
-                   std::begin(inSpectrum),
+		   std::begin(inSpectrum),
                    std::end(inSpectrum),
                    std::begin(spectrum),
                    std::begin(inSpectrum),
@@ -58,7 +58,7 @@ void FFTFilter::proc(const void *inputBuffer, void *outputBuffer, unsigned long 
                    );
 
     fft->ifft(inSpectrum, outSig);
-    for (int i=0; i<framesPerBuffer; i++) {
+    for (unsigned int i=0; i<framesPerBuffer; i++) {
         process[2*i] = (float)outSig[ps2n-framesPerBuffer+i];
         process[2*i+1] = process[2*i];
         outtmp[2*i] = process[2*i];

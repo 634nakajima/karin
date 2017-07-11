@@ -7,19 +7,14 @@
 #include <string>
 #include <sstream>
 #include <iomanip>
-#include "portaudio.h"
-#include "portsf.h"
-#include "global.h"
-#include "Exceptions.h"
-#include "functions.h"
-#include "source.h"
-#include "transform.h"
-#include "filter.h"
-#include "ml.h"
-#include "tools.h"
+#include <string.h>
+#include "aquila/aquila.h"
+extern "C"{
+  #include "portaudio.h"
+}
 
 #define PA_SAMPLE_TYPE      paFloat32
-#define FRAMES_PER_BUFFER   (1024)
+#define FRAMES_PER_BUFFER   (2048)
 #define Log2N               8u;
 #define MAX_PACKET          44100
 #define SAMPLE_RATE         44100
@@ -48,6 +43,9 @@ private:
 
 class Audio {
 public:
+  Audio(){
+    m_listener = NULL;
+  }
     //コールバック用
     template <class T>
     void setCallback(T* obj, void (T::*cbf)(const void *, void *, unsigned long)){

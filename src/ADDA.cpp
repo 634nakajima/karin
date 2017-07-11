@@ -31,7 +31,7 @@ int ADDA::ioCallback(const void *inputBuffer, void *outputBuffer,
         }
     }
     for( i=0; i<framesPerBuffer; i++ ){
-        *output++ = *process;
+        *output++ = *process++;
         *output++ = *process++;
     }
     
@@ -93,13 +93,16 @@ int ADDA::preparePa(){
         Pa_Terminate();
         printf("err_open\n");
     }
+
     start();
     return 0;
 }
 
 int ADDA::start(){
     err = Pa_StartStream( paStream );
+    if(err) printf("ADDA start err!\n");
     isPlaying = true;
+
     return 0;
 }
 

@@ -2,7 +2,6 @@
 #define DB_hpp
 
 #include <stdio.h>
-#include <Accelerate/Accelerate.h>
 #include "Audio.h"
 
 class DB : public Audio

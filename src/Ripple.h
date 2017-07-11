@@ -6,8 +6,8 @@
 //
 //
 
-#ifndef Ripple_hpp
-#define Ripple_hpp
+#ifndef Ripple_h
+#define Ripple_h
 #define R_SIZE 35
 #define VELOCITY 0.25
 #define LAMBDA 10
@@ -27,4 +27,4 @@ public:
 private:
     float t;
 };
-#endif /* Ripple_hpp */
+#endif /* Ripple_h */

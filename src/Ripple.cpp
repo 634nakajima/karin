@@ -6,7 +6,7 @@
 //
 //
 
-#include "Ripple.hpp"
+#include "Ripple.h"
 #include <math.h>
 
 Ripple::Ripple(){

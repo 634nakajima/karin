@@ -6,13 +6,13 @@
 //  Copyright © 2017年 kannolab1. All rights reserved.
 //
 
-#ifndef FFTFilter_hpp
-#define FFTFilter_hpp
+#ifndef FFTFilter_h
+#define FFTFilter_h
 
 #include <algorithm>
 #include <functional>
 #include <memory>
-#include "aquila.h"
+#include "aquila/aquila.h"
 #include "Audio.h"
 
 class FFTFilter : Audio {
@@ -31,8 +31,7 @@ public:
     
 private:
     int n;
-    FFTSetup Setup;
     unsigned long ps2n;
 };
 
-#endif /* FFTFilter_hpp */
+#endif /* FFTFilter_h */
