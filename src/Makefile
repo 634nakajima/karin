@@ -1,6 +1,6 @@
 CFLAGS=-Wall -O3 -g -std=c++11
 CXXFLAGS=$(CFLAGS)
-OBJECTS=karin.o Ripple.o ADDA.o FFTFilter.o DB.o
+OBJECTS=SocketManager.o karin.o Ripple.o
 BINARIES=karin
 
 # Where our library resides. You mostly only need to change the
