@@ -73,11 +73,10 @@ void *SocketManager::threadFunction(void *data) {
     val = 1;
     ioctl(sock0, FIONBIO, &val);
     sock = accept(sock0, (struct sockaddr *)&senderinfo, &addrlen);
-    ioctl(sock, FIONBIO, &val);
     n = read(sock, data, sizeof(data));
 
-    if(n == -1) {
-      usleep(1000);
+    if(sock == -1) {
+      usleep(1000*100);
       continue;
     }
     socketManager->callback(data, n);
