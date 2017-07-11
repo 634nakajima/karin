@@ -42,14 +42,19 @@ void SocketManager::broadcast(void *d, int size) {
 
 void SocketManager::sendData(void *d, int size, char *ip) {
   int sock;
-  struct sockaddr_in addr;
+  struct sockaddr_in server;
 
-  sock = socket(AF_INET, SOCK_DGRAM, 0);
-  addr.sin_family = AF_INET;
-  addr.sin_port = htons(6340);
-  addr.sin_addr.s_addr = inet_addr(ip);
+  sock = socket(AF_INET, SOCK_STREAM, 0);
+  if(sock<0) {
+    printf("failed!\n");
+    return;
+  }
+  server.sin_family = AF_INET;
+  server.sin_port = htons(6340);
+  server.sin_addr.s_addr = inet_addr(ip);
 
-  sendto(sock, d, size, 0, (struct sockaddr *)&addr, sizeof(addr));
+  connect(sock, (struct sockaddr *)&server, sizeof(server));
+  write(sock, d, size);
   close(sock);
 }
 
